@@ -9,7 +9,7 @@ describe("Order phases for Golden Path", () => {
     });
 
     it('add ice cream and toppings', async () => {
-        // Fixed typo: getByrole -> getByRole
+        
         const vanillaCheckbox = screen.getByRole('checkbox', {name: /vanilla/i});
         const chocolateCheckbox = screen.getByRole('checkbox', {name: /chocolate/i}); 
         
@@ -33,7 +33,7 @@ describe("Order phases for Golden Path", () => {
         const orderSummaryButton = screen.getByRole("button", {name: /view order/i});
         await user.click(orderSummaryButton);
 
-        // Fixed: ScreenOrientation -> screen
+        
         const summaryPageHeading = screen.getByRole("heading", {name: /review order/i});
         expect(summaryPageHeading).toBeInTheDocument();
 
@@ -58,7 +58,7 @@ describe("Order phases for Golden Path", () => {
     });
 
     it('check summary information based on order', async () => { 
-        // Fixed typo: getByrole -> getByRole
+        
         const vanillaCheckbox = screen.getByRole('checkbox', {name: /vanilla/i});
         const chocolateCheckbox = screen.getByRole('checkbox', {name: /chocolate/i}); 
         const sprinklesCheckbox = screen.getByRole('checkbox', {name: /sprinkles/i}); 
@@ -74,8 +74,7 @@ describe("Order phases for Golden Path", () => {
         expect(screen.getByText(/chocolate/i)).toBeInTheDocument();
         expect(screen.getByText(/sprinkles/i)).toBeInTheDocument();
         
-        // Go back and add vanilla (if supported by the app)
-        // Note: This depends on your app's navigation flow
+        
         const backButton = screen.queryByRole("button", {name: /back|edit order/i});
         if (backButton) {
             await user.click(backButton);
@@ -84,7 +83,7 @@ describe("Order phases for Golden Path", () => {
     });
 
     it('accept terms and conditions and click button to confirm order', async () => { 
-        // Fixed typo: getByrole -> getByRole
+        
         const vanillaCheckbox = screen.getByRole('checkbox', {name: /vanilla/i}); 
         await user.click(vanillaCheckbox); 
 
@@ -92,7 +91,7 @@ describe("Order phases for Golden Path", () => {
         await user.click(orderSummaryButton);  
 
         const termsCheckbox = screen.getByRole('checkbox', {name: /terms.*conditions|agree.*terms/i});
-        // Fixed: click termsCheckbox instead of orderSummaryButton
+        
         await user.click(termsCheckbox); 
         
         const confirmButton = screen.getByRole('button', {name: /confirm order|place order|submit order/i});
