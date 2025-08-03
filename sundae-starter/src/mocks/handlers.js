@@ -14,5 +14,13 @@ export const handlers = [
       { name: "M&Ms", imagePath: "/images/m-and-ms.png" },
       { name: "Hot fudge", imagePath: "/images/hot-fudge.png" },
     ]);
-  }),
+  }), 
+
+  http.post("http://localhost:3030/order", () => { 
+    const orderNumber = Math.floor(Math.random() * 1000000);
+    
+    return HttpResponse.json([
+      {status: 201, orderNumber},
+    ]);
+  }) 
 ];

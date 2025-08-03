@@ -1,9 +1,8 @@
-
-import SummaryForm from "./SummaryForm";
+import { SummaryForm } from "./SummaryForm";
 import { formatCurrency } from "../../utilities";
 import { useOrderDetails } from "../../contexts/OrderDetails";
 
-export default function OrderDetails() {
+export default function OrderDetails({setStep}) {
   const { totals, optionCounts } = useOrderDetails();
   const scoopArray = Object.entries(optionCounts.scoops);
   const scoopList = scoopArray.map(([key, value]) => (
@@ -12,17 +11,18 @@ export default function OrderDetails() {
     </li>
   ));
 
-  const toppingArray = Object.key(optionCounts.toppings);
+  const toppingArray = Object.keys(optionCounts.toppings);
   const toppingList = toppingArray.map((key) => <li key={key}>{key}</li>);
 
   return (
     <div>
-      <h1>OrderSummary</h1>
-      <h2>Scoops: {formatCurrency(totals.scoops)}</h2>
+      <h1> Review Order </h1>
+      <h2>Scoops Summary: {formatCurrency(totals.scoops)}</h2>
       <ul>{scoopList}</ul>
-      <h2>Toppings: {formatCurrency(totals.toppings)}</h2>
+      <h2>Toppings Summary: {formatCurrency(totals.toppings)}</h2> 
       <ul>{toppingList}</ul>
-      <SummaryForm />
+      <h2>Total: {formatCurrency(totals.scoops + totals.toppings)}</h2>
+      <SummaryForm setStep = {setStep} />
     </div>
   );
 }

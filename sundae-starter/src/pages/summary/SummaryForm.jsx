@@ -3,13 +3,13 @@ import { Button, Form } from "react-bootstrap";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 
-export function SummaryForm({ setOrderPhase }) {
+export function SummaryForm({ setStep }) {
   const [tcChecked, setTcChecked] = useState(false);
 
   function handleSubmit(event) {
-    event.preventDefalt();
+    event.preventDefault();
 
-    setOrderPhase("completed");
+    setStep("confirmation");
   }
 
   const popover = (
