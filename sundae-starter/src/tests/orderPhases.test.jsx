@@ -123,6 +123,9 @@ describe("Order phases for Golden Path", () => {
         const confirmButton = screen.getByRole('button', {name: /confirm order|place order|submit order/i});
         expect(confirmButton).toBeEnabled();
         await user.click(confirmButton);
+
+        const confirmationLoading = screen.getByText(/loading.../i);
+        expect(confirmationLoading).toBeInTheDocument();
         
         // Verify we're on confirmation page
         const confirmationHeading = await screen.findByRole("heading", {name: /Thank You!/i});
@@ -171,12 +174,12 @@ describe("Order phases for Golden Path", () => {
         await user.click(confirmButton);
         
         // Verify we're on confirmation page
-        const confirmationHeading = await screen.findByRole("heading", {name: /order confirmed|confirmation/i});
+        const confirmationHeading = await screen.findByRole("heading", {name: /Thank You!/i});
         expect(confirmationHeading).toBeInTheDocument();
 
       
         // Wait for and verify order number appears
-        const createdOrderNumber = await screen.findByText(/Your order number is \d+/i);
+        const createdOrderNumber = await screen.findByText(/Your order number: \d+/i);
         expect(createdOrderNumber).toBeInTheDocument();
     });
 
@@ -226,7 +229,7 @@ describe("Order phases for Golden Path", () => {
         expect(confirmationHeading).toBeInTheDocument();
        
         // Wait for and verify order number appears
-        const createdOrderNumber = await screen.findByText(/Your order number is \d+/i);
+        const createdOrderNumber = await screen.findByText(/Your order number: \d+/i);
         expect(createdOrderNumber).toBeInTheDocument();
 
         const newOrderButton = screen.getByRole("button", {name: /create new order/i});
@@ -280,11 +283,11 @@ describe("Order phases for Golden Path", () => {
         await user.click(confirmButton);
         
         // Verify we're on confirmation page
-        const confirmationHeading =  screen.getByRole("heading", {name: /Thank You!/i});
+        const confirmationHeading = await screen.findByRole("heading", {name: /Thank You!/i});
         expect(confirmationHeading).toBeInTheDocument();
        
         // Wait for and verify order number appears
-        const createdOrderNumber = await screen.findByText(/Your order number is \d+/i);
+        const createdOrderNumber = await screen.findByText(/Your order number: \d+/i);
         expect(createdOrderNumber).toBeInTheDocument();
 
         const newOrderButton = screen.getByRole("button", {name: /create new order/i});
@@ -300,7 +303,7 @@ describe("Order phases for Golden Path", () => {
         const resetvanillaInput = screen.getByRole("spinbutton", {name: "Vanilla"});
         expect(resetvanillaInput).toHaveValue(0);
         
-        const resetcherriesCheckbox = screen.getByRole("checkbox", {name: "cheries"});
+        const resetcherriesCheckbox = screen.getByRole("checkbox", {name: "Cherries"});
         expect(resetcherriesCheckbox).not.toBeChecked();
     });
 });

@@ -21,8 +21,8 @@ export const handlers = [
     const orderNumber = Math.floor(Math.random() * 1000000); 
     await delay(600); // Simulate network delay
     
-    return HttpResponse.json([
-      {status: 201, orderNumber},
-    ]);
+    return HttpResponse.json(
+       {status: 201, orderNumber}
+    );
   }) 
 ];
