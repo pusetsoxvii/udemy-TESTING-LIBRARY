@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse, delay } from "msw";
 
 export const handlers = [
   http.get("http://localhost:3030/scoops", () => {
@@ -8,7 +8,8 @@ export const handlers = [
     ]);
   }),
 
-  http.get("http://localhost:3030/toppings", () => {
+  http.get("http://localhost:3030/toppings", () => { 
+
     return HttpResponse.json([
       { name: "Cherries", imagePath: "/images/cherries.png" },
       { name: "M&Ms", imagePath: "/images/m-and-ms.png" },
@@ -16,8 +17,9 @@ export const handlers = [
     ]);
   }), 
 
-  http.post("http://localhost:3030/order", () => { 
-    const orderNumber = Math.floor(Math.random() * 1000000);
+  http.post("http://localhost:3030/order", async () => { 
+    const orderNumber = Math.floor(Math.random() * 1000000); 
+    await delay(600); // Simulate network delay
     
     return HttpResponse.json([
       {status: 201, orderNumber},
