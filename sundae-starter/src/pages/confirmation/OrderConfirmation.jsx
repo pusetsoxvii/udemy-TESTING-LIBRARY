@@ -13,6 +13,7 @@ const [orderNumber, setOrderNumber] = useState(null);
          axios.post(`http://localhost:3030/order`)
          .then((response) =>{
             setOrderNumber(response.data.orderNumber);
+            
          })
          .catch((error)=>{
 
@@ -23,7 +24,7 @@ const [orderNumber, setOrderNumber] = useState(null);
         resetOrder();
         setStep("order");
     }
-
+      
     if (orderNumber) {return (
     <div>
       <h1>Thank you!</h1>
