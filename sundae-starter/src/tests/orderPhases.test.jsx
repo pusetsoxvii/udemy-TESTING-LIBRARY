@@ -1,7 +1,8 @@
 import { screen, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, test } from "vitest";
+import { wait } from "@testing-library/user-event/dist/cjs/utils/index.js";
 
 describe("Order phases for Golden Path", () => {
     
@@ -306,4 +307,59 @@ describe("Order phases for Golden Path", () => {
         const resetcherriesCheckbox = screen.getByRole("checkbox", {name: "Cherries"});
         expect(resetcherriesCheckbox).not.toBeChecked();
     });
+});
+
+test("Toppings header is not on summary page if no topping  are ordered", async()=>{
+    const user = userEvent.setup();
+    render(<App/>);
+
+    const vanillaInput = await screen.findByRole("spinbutton", {name: 'Vanilla'});
+    await user.clear(vanillaInput);
+    await user.type(vanillaInput,'1');
+    
+    const chocolateInput = screen.getByRole("spinbutton", {name: 'Chocolate'});
+    await user.clear(chocolateInput);
+    await user.type(chocolateInput,'2');
+
+    const orderSummaryButton = screen.getByRole('button',{name: 'view order'});
+    await user.click(orderSummaryButton);
+
+    const scoopsSummary =  screen.getByRole("heading", {name: /scoops summary/i});
+    expect(scoopsSummary).toBeInTheDocument();
+
+    const toppingsSummary = screen.queryByRole("heading", {name: /Toppings Summary:/i} );
+    expect(toppingsSummary).not.toBeInTheDocument();
+
+});
+
+test("toppings header is not on summary page if toppings ordered, then removed", async()=>{
+    const user = userEvent.setup();
+
+    render(<App/>);
+
+    const vanillaInput = await screen.findByRole('spinbutton',{name: /Vanilla/i});
+    await user.clear(vanillaInput);
+    await user.type(vanillaInput, '1');
+
+    const cherryToppings = await screen.findByRole('checkbox', {name: /cherries/i});
+    await user.click(cherryToppings);
+    expect(cherryToppings).toBeChecked();
+
+    const toppingsTotal = screen.getByText("Toppings total: P", {exact: false});
+    expect(toppingsTotal).toHaveTextContent("1.50");
+
+    await user.click(cherryToppings);
+    expect(cherryToppings).not.toBeChecked();
+    expect(toppingsTotal).toHaveTextContent("0.00");
+
+    
+    const orderSummaryButton = screen.getByRole('button',{name: 'view order'});
+    await user.click(orderSummaryButton);
+
+    const scoopsSummary =  screen.getByRole("heading", {name: /scoops summary/i});
+    expect(scoopsSummary).toBeInTheDocument();
+
+    const toppingsSummary = screen.queryByRole('heading', {name: /Toppings total:/i});
+    expect(toppingsSummary).not.toBeInTheDocument();
+
 });
